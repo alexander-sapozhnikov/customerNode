@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Now we show your show!</h1>
+<div th:each="el : ${result}">
+    <div th:text="${el.getFirstName()}"></div>
+    <br/>
+</div>
+</body>
+</html>
