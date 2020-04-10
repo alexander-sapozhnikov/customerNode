@@ -14,17 +14,13 @@ public class Address {
     private String city;
     private String state;
     private String country;
-    @OneToOne (mappedBy="address")
-    private Customer customer;
-
     @Override
     public String toString() {
         return "Address{" +
                 "id=" + id +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
-                ", country='" + country + '\'' +
-                ", customer=" + customer +
+                ", country='" + country +
                 '}';
     }
 }
