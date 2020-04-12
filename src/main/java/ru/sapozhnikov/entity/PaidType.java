@@ -7,15 +7,15 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="paidType")
+@Table(name="paidtype")
 public class PaidType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToMany
-    @JoinTable(name = "customersPaidTypes",
-            joinColumns=@JoinColumn(name="paidTypeId"),
-            inverseJoinColumns=@JoinColumn(name="customersId"))
-    private List<Customer> customers;
+//    @ManyToMany
+//    @JoinTable(name = "customersPaidTypes",
+//            joinColumns=@JoinColumn(name="paidTypeId"),
+//            inverseJoinColumns=@JoinColumn(name="customersId"))
+//    private List<Customer> customers;
 }

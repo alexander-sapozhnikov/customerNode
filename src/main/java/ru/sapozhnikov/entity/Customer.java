@@ -20,26 +20,15 @@ public class Customer {
     private String password;
     private String phone;
 
-//    @ManyToMany
-//    @JoinTable(name = "customersPaidTypes",
-//            joinColumns=@JoinColumn(name="customersId"),
-//            inverseJoinColumns=@JoinColumn(name="paidTypeId"))
-//    private List<PaidType> paidTypeList;
+    @ManyToMany
+    @JoinTable(name = "customerspaidtypes",
+            joinColumns=@JoinColumn(name="customersid"),
+            inverseJoinColumns=@JoinColumn(name="paidtypeid"))
+    private List<PaidType> paidTypeList;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressid", referencedColumnName = "id")
     private Address address;
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phone='" + phone + '\'' +
 
-                ", address=" + address +
-                '}';
-    }
 }

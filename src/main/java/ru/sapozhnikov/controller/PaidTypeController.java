@@ -27,7 +27,7 @@ public class PaidTypeController {
 
     @GetMapping(path = "allPaidType")
     public ResponseEntity showAllCustomers(){
-        return ResponseEntity.ok(customerDAO.findAll());
+        return ResponseEntity.ok(paidTypeDAO.findAll());
     }
 
     @GetMapping("byIdPaidType")
@@ -42,6 +42,7 @@ public class PaidTypeController {
     @PostMapping("addPaidType")
     public ResponseEntity addPaidType (String name){
         PaidType paidType = new PaidType();
+        paidType.setName(name);
         paidTypeDAO.save(paidType);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
