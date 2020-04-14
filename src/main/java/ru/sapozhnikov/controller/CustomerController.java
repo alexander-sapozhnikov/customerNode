@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@Controller
+@RestController
 public class CustomerController {
     private CustomerDAO customerDAO;
     private AddressDAO addressDAO;
@@ -36,12 +36,12 @@ public class CustomerController {
         return "index";
     }
 
-    @GetMapping(path = "allCustomers")
+    @GetMapping(path = "customers")
     public ResponseEntity showAllCustomers(){
         return ResponseEntity.ok(customerDAO.findAll());
     }
 
-    @GetMapping("byIdCustomer")
+    @GetMapping("customer")
     public ResponseEntity showByIdCustomer(@RequestParam String id){
         try{
             return ResponseEntity.ok(customerDAO.getById(Integer.valueOf(id)));
@@ -51,7 +51,7 @@ public class CustomerController {
     }
 
 
-    @PostMapping("addCustomer")
+    @PostMapping("customer")
     public ResponseEntity addCustomer ( String firstname,  String lastname,
                                         String email,  String password,
                                         String phone,  String city,
@@ -76,7 +76,7 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("deleteCustomer")
+    @DeleteMapping("customer")
     public ResponseEntity deleteCustomer(@RequestParam String id){
         try{
             customerDAO.delete(customerDAO.getById(Integer.valueOf(id)));
@@ -86,7 +86,7 @@ public class CustomerController {
         }
     }
 
-    @PutMapping("updateCustomer")
+    @PutMapping("customer")
     public ResponseEntity updateCustomer(@RequestParam String id, @RequestParam String field,
                                          @RequestParam String value){
         Customer customer;
