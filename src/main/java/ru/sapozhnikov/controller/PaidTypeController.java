@@ -13,7 +13,7 @@ import ru.sapozhnikov.entity.Address;
 import ru.sapozhnikov.entity.Customer;
 import ru.sapozhnikov.entity.PaidType;
 
-@RestController
+@Controller
 public class PaidTypeController {
     private CustomerDAO customerDAO;
     private PaidTypeDAO paidTypeDAO;
