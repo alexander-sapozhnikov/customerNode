@@ -32,3 +32,10 @@ CREATE TABLE customersPaidTypes
     UNIQUE(customersId, paidTypeId)
 );
 
+
+CREATE TABLE user_security (
+    id Serial PRIMARY KEY,
+    username VARCHAR(45),
+    password VARCHAR(60)
+);
+

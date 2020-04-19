@@ -3,6 +3,7 @@ package ru.sapozhnikov.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,7 +25,7 @@ public class Customer {
     @JoinTable(name = "customerspaidtypes",
             joinColumns=@JoinColumn(name="customersid"),
             inverseJoinColumns=@JoinColumn(name="paidtypeid"))
-    private List<PaidType> paidTypeList;
+    private List<PaidType> paidTypeList = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressid", referencedColumnName = "id")

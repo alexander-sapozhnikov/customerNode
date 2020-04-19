@@ -15,15 +15,8 @@ import ru.sapozhnikov.entity.PaidType;
 
 @Controller
 public class PaidTypeController {
-    private CustomerDAO customerDAO;
-    private PaidTypeDAO paidTypeDAO;
-
     @Autowired
-    public PaidTypeController(CustomerDAO customerDAO, PaidTypeDAO paidTypeDAO) {
-        this.customerDAO = customerDAO;
-        this.paidTypeDAO = paidTypeDAO;
-    }
-
+    private PaidTypeDAO paidTypeDAO;
 
     @GetMapping(path = "paidTypes")
     public ResponseEntity showAllCustomers(){
@@ -54,6 +47,8 @@ public class PaidTypeController {
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (NumberFormatException e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
@@ -62,8 +57,11 @@ public class PaidTypeController {
         PaidType paidType = null;
         try{
             paidType = paidTypeDAO.getById(Integer.valueOf(id));
+            if(paidType == null) throw new NullPointerException();
         } catch (NumberFormatException e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
         paidType.setName(name);
         paidTypeDAO.save(paidType);

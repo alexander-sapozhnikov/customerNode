@@ -13,7 +13,6 @@ import ru.sapozhnikov.entity.Address;
 import ru.sapozhnikov.entity.Customer;
 import ru.sapozhnikov.entity.PaidType;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -31,10 +30,6 @@ public class CustomerController {
         this.paidTypeDAO = paidTypeDAO;
     }
 
-    @GetMapping
-    public String mainWind(){
-        return "index";
-    }
 
     @GetMapping(path = "customers")
     public ResponseEntity showAllCustomers(){
@@ -55,8 +50,7 @@ public class CustomerController {
     public ResponseEntity addCustomer ( String firstname,  String lastname,
                                         String email,  String password,
                                         String phone,  String city,
-                                        String state,  String country,
-                                        int paidTypeId){
+                                        String state,  String country){
         Address address = new Address();
         address.setCity(city);
         address.setState(state);
@@ -70,8 +64,17 @@ public class CustomerController {
         customer.setPassword(password);
         customer.setPhone(phone);
         customer.setAddress(address);
-        customer.setPaidTypeList(Arrays.asList(paidTypeDAO.getById(paidTypeId)));
-        customerDAO.save(customer);
+        try{
+            customerDAO.save(customer);
+        } catch (Exception e){
+            if(e.getMessage().contains("customers_email_key")){
+                return new ResponseEntity("Email already exist.",HttpStatus.NOT_ACCEPTABLE);
+            } else if(e.getMessage().contains("customers_email_key")){
+                return new ResponseEntity("Phone already exist.",HttpStatus.NOT_ACCEPTABLE);
+            } else {
+                return new ResponseEntity("Try it again. Later.",HttpStatus.NOT_ACCEPTABLE);
+            }
+        }
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -83,6 +86,8 @@ public class CustomerController {
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (NumberFormatException e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
