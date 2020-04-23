@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import ru.sapozhnikov.dao.UserSecurityDAO;
 import ru.sapozhnikov.entity.UserSecurity;
 import ru.sapozhnikov.security.JwtResponse;
@@ -23,7 +24,7 @@ import ru.sapozhnikov.security.UserDetailsServiceImpl;
 
 import java.util.Collections;
 
-@Controller
+@RestController
 public class JwtAuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
@@ -54,6 +55,11 @@ public class JwtAuthenticationController {
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
         String token = jwtTokenUtil.generateToken(userDetails);
+
+        UserSecurity userSecurity = userSecurityDAO.findByUsername(username).get();
+        userSecurity.setToken(token);
+        userSecurityDAO.save(userSecurity);
+
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
@@ -78,11 +84,12 @@ public class JwtAuthenticationController {
         UserSecurity userSecurity = new UserSecurity();
         userSecurity.setUsername(username);
         userSecurity.setPassword(bCryptPasswordEncoder.encode(password));
-        userSecurityDAO.save(userSecurity);
-
 
         UserDetails userDetails = new User(username, userSecurity.getPassword(), Collections.emptyList());
         String token = jwtTokenUtil.generateToken(userDetails);
+
+        userSecurity.setToken(token);
+        userSecurityDAO.save(userSecurity);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 

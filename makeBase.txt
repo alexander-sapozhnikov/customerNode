@@ -36,6 +36,8 @@ CREATE TABLE customersPaidTypes
 CREATE TABLE user_security (
     id Serial PRIMARY KEY,
     username VARCHAR(45),
-    password VARCHAR(60)
+    password VARCHAR(60),
+    token VARCHAR(300)
 );
+
 

@@ -13,17 +13,18 @@ import ru.sapozhnikov.entity.Address;
 import ru.sapozhnikov.entity.Customer;
 import ru.sapozhnikov.entity.PaidType;
 
-@Controller
+@RestController
+@RequestMapping("/paidTypes")
 public class PaidTypeController {
     @Autowired
     private PaidTypeDAO paidTypeDAO;
 
-    @GetMapping(path = "paidTypes")
+    @GetMapping
     public ResponseEntity showAllCustomers(){
         return ResponseEntity.ok(paidTypeDAO.findAll());
     }
 
-    @GetMapping("paidType")
+    @GetMapping(params = "id")
     public ResponseEntity showByIdPaidType(@RequestParam String id){
         try{
             return ResponseEntity.ok(paidTypeDAO.getById(Integer.valueOf(id)));
@@ -32,7 +33,7 @@ public class PaidTypeController {
         }
     }
 
-    @PostMapping("paidType")
+    @PostMapping
     public ResponseEntity addPaidType (String name){
         PaidType paidType = new PaidType();
         paidType.setName(name);
@@ -40,7 +41,7 @@ public class PaidTypeController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("paidType")
+    @DeleteMapping
     public ResponseEntity deletePaidType(@RequestParam String id){
         try{
             paidTypeDAO.delete(paidTypeDAO.getById(Integer.valueOf(id)));
@@ -52,7 +53,7 @@ public class PaidTypeController {
         }
     }
 
-    @PutMapping("paidType")
+    @PutMapping
     public ResponseEntity updatePaidType(@RequestParam String id, @RequestParam String name){
         PaidType paidType = null;
         try{

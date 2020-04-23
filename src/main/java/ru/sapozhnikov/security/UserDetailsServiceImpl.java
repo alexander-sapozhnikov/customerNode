@@ -18,6 +18,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserSecurityDAO userSecurityDAO;
 
+    private  String token;
+
     public UserDetailsServiceImpl(UserSecurityDAO userSecurityDAO) {
         this.userSecurityDAO = userSecurityDAO;
     }
@@ -29,6 +31,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User don't exist.");
         }
         UserSecurity userSecurity = optional.get();
+        if(!token.equals(userSecurity.getToken())){
+            return new User(userSecurity.getUsername(), userSecurity.getPassword(),
+                    true, false, true, true, Collections.emptyList());
+        }
         return new User(userSecurity.getUsername(), userSecurity.getPassword(), Collections.emptyList());
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
